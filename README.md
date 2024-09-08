@@ -2,12 +2,20 @@
 
 ## Init
 
-You have to install nodejs
-after get the repository run
-npm i
+You have to install nodejs \
+After get the repository run \
+npm i \
 this will install dependencies
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+## Setting
+
+Main modify the icbcService.ts file
+
+`{ static readonly dividerNumber: number = 8; // show how many records of the appointment }`
+`{ static readonly showInfos: boolean = true; //init wheather show infos zone }`
 
 ## Available Scripts
 
