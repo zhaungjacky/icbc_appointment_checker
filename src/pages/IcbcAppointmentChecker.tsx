@@ -306,7 +306,7 @@ export default function IcbcAppointmentChecker() {
           <Grid2 container spacing={1}>
             {currentApps.map((app, index) => {
               return (
-                <Grid2  size={12 / (dividerNumber / 2)} key={app.appointmentDt.dayOfWeek + app.resourceId+app.endTm}>
+                <Grid2  size={12 / (dividerNumber / 2)} key={Math.round(Math.random() * 10000) + app.posId + app.startTm }>
                   <Box>
                     {/* <Divider>{locationName(index + 1)}</Divider> */}
 

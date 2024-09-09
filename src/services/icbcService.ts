@@ -26,8 +26,8 @@ export class IcbcService {
     static readonly licenceNumber: string = "licenceNumber";
     static readonly keyword: string = "keyword";
     static readonly dividerNumber: number = 8; // show how many records of the appointment
+    static readonly showInfos: boolean = true; //init wether show infos zone
     static readonly token: string = "token";
-    static readonly showInfos: boolean = true; //init wheather show infos zone
     static readonly selectedLocations: string = 'selectedLocations';
     
 
