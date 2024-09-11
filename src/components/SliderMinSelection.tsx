@@ -1,11 +1,13 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
-import { IcbcService } from "../services/icbcService";
 
 interface SilderProp {
   value: number;
   setValue: React.Dispatch<React.SetStateAction<number>>;
+  sliderMinValue: number;
+  sliderMaxValue: number;
+  localStorageKey: string;
 }
 
 function valuetext(value: number) {
@@ -17,10 +19,13 @@ function valuetext(value: number) {
 export default function SliderMinSelection({
   value,
   setValue,
+  sliderMinValue,
+  sliderMaxValue,
+  localStorageKey,
 }: Readonly<SilderProp>) {
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number);
-    localStorage.setItem(IcbcService.refreshIntervalMin,JSON.stringify(newValue))
+    localStorage.setItem(localStorageKey,JSON.stringify(newValue))
   };
   return (
     <Box sx={{ width: 200 }}>
@@ -33,8 +38,8 @@ export default function SliderMinSelection({
         onChange={handleChange}
         step={1}
         marks
-        min={1}
-        max={16}
+        min={sliderMinValue}
+        max={sliderMaxValue}
       />
     </Box>
   );

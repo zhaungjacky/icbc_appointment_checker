@@ -1,12 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  Grid2,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Divider, Grid2, Typography } from "@mui/material";
 import { CurrentAppointment } from "../services/model/current_appointment";
 import {
   IcbcService,
@@ -22,19 +16,19 @@ import MyAppointmentCard from "../components/MyAppointmentCard";
 import { Appointment } from "../services/model/appointment";
 
 const locationAndNames: LocationProp[] = [
-  {aPosID: 73  ,locationName: 'Port Coquitlam' },
-  {aPosID: 274  ,locationName: 'Burnary 4399'},
-  {aPosID: 2  ,locationName: 'Burnary 3880'},
-  {aPosID: 273  ,locationName: 'Richmond 7200'},
-  {aPosID: 93  ,locationName: 'Richmond 5300'},
- { aPosID: 9  ,locationName: 'Point Grey'},
-  {aPosID: 275  ,locationName: 'Kingsway'},
-  {aPosID: 11  ,locationName: 'Surrey Driving'},
-  {aPosID: 271  ,locationName: 'Newton claim' },
-  {aPosID: 269  ,locationName: 'Surrey claim'},
- { aPosID: 281  ,locationName: 'Guildford Boardwalk'},
-]
-  /*
+  { aPosID: 73, locationName: "Port Coquitlam" },
+  { aPosID: 274, locationName: "Burnary 4399" },
+  { aPosID: 2, locationName: "Burnary 3880" },
+  { aPosID: 273, locationName: "Richmond 7200" },
+  { aPosID: 93, locationName: "Richmond 5300" },
+  { aPosID: 9, locationName: "Point Grey" },
+  { aPosID: 275, locationName: "Kingsway" },
+  { aPosID: 11, locationName: "Surrey Driving" },
+  { aPosID: 271, locationName: "Newton claim" },
+  { aPosID: 269, locationName: "Surrey claim" },
+  { aPosID: 281, locationName: "Guildford Boardwalk" },
+];
+/*
           posID: "73"  // Port Coquitlam 
           posID: "274"  // Burnary 4399
           posID: "2"  // Burnary 3880 Lougheed Hwy
@@ -51,19 +45,17 @@ const locationAndNames: LocationProp[] = [
       */
 
 export default function IcbcAppointmentChecker() {
-
-
   const [locations, setLocations] = React.useState<LocationProp[]>(() =>
     localStorage.getItem(IcbcService.selectedLocations) === null
       ? []
-      : JSON.parse(localStorage.getItem(IcbcService.selectedLocations)!));
+      : JSON.parse(localStorage.getItem(IcbcService.selectedLocations)!)
+  );
 
-  const [minitueInterval, setMinitueInterval] = React.useState(() =>
+  const [minuteInterval, setMinuteInterval] = React.useState(() =>
     localStorage.getItem(IcbcService.refreshIntervalMin) === null
       ? 2
       : parseInt(localStorage.getItem(IcbcService.refreshIntervalMin)!)
   );
-
 
   const [drvrLastName, setDrvrLastName] = React.useState(() =>
     localStorage.getItem(IcbcService.drvrLastName) === null
@@ -77,13 +69,11 @@ export default function IcbcAppointmentChecker() {
   );
   const [keyword, setKeyword] = React.useState(() =>
     localStorage.getItem(IcbcService.keyword) === null
-      ? 
-      ""
+      ? ""
       : String(localStorage.getItem(IcbcService.keyword)!)
   );
 
-
-  const dividerNumber = React.useMemo(()=>IcbcService.dividerNumber,[]);
+  const dividerNumber = React.useMemo(() => IcbcService.dividerNumber, []);
 
   const [token, setToken] = React.useState(() =>
     localStorage.getItem("token") == null
@@ -97,7 +87,13 @@ export default function IcbcAppointmentChecker() {
     [] as CurrentAppointment[]
   );
 
-  const [showInfo, setShowInfo] = React.useState(()=>IcbcService.showInfos);
+  const [addToToday, setAddToToday] = React.useState(() =>
+    localStorage.getItem(IcbcService.addToTodayKey) === null
+      ? IcbcService.dateAddToToday
+      : parseInt(JSON.parse(localStorage.getItem(IcbcService.addToTodayKey)!))
+  );
+
+  const [showInfo, setShowInfo] = React.useState(() => IcbcService.showInfos);
 
   const icbcService = React.useMemo(
     () => new IcbcService(setToken, setMyAppointment, setCurrentApps),
@@ -110,14 +106,12 @@ export default function IcbcAppointmentChecker() {
     keyword: keyword,
   };
 
-
-
   React.useEffect(() => {
     handleGetToken();
   }, []);
 
   React.useEffect(() => {
-    if(drvrLastName === "" || licenceNumber === "" || keyword === "" ){
+    if (drvrLastName === "" || licenceNumber === "" || keyword === "") {
       return;
     }
     getAppointments();
@@ -126,7 +120,7 @@ export default function IcbcAppointmentChecker() {
 
   // set interval time to get infos
   React.useEffect(() => {
-    if(drvrLastName === "" || licenceNumber === "" || keyword === "" ){
+    if (drvrLastName === "" || licenceNumber === "" || keyword === "") {
       return;
     }
     const timer = setInterval(async () => {
@@ -134,44 +128,41 @@ export default function IcbcAppointmentChecker() {
         handleGetToken();
         getAppointments();
       }
-    }, 60 * 1000 * minitueInterval);
+    }, 60 * 1000 * minuteInterval);
 
     return () => clearInterval(timer);
   }, [token.length]);
 
-
   const getAppointments = React.useCallback(() => {
-    if(drvrLastName === "" || licenceNumber === "" || keyword === "" ){
+    if (drvrLastName === "" || licenceNumber === "" || keyword === "") {
       return;
     }
     setCurrentApps([]);
 
-    for(let location of locations){
-      icbcService.getAppointment(appointmentPayload(location.aPosID,tokenPayload), token, dividerNumber);
-
+    for (let location of locations) {
+      icbcService.getAppointment(
+        appointmentPayload(location.aPosID, tokenPayload, addToToday),
+        token,
+        dividerNumber
+      );
     }
-   
-  }, [ locations,  token]);
+  }, [locations, token]);
 
   const handleToggleShowInfo = () => {
     setShowInfo((prev) => !prev);
   };
 
-
-
-  const handleGetToken = ()=>{
-    if(drvrLastName === "" || licenceNumber === "" || keyword === ""     
-    ){
+  const handleGetToken = () => {
+    if (drvrLastName === "" || licenceNumber === "" || keyword === "") {
       localStorage.removeItem(IcbcService.token);
       return;
     }
     icbcService.getToken(tokenPayload);
-  }
+  };
 
-  const handleGetAppoints = ()=>{
-   
+  const handleGetAppoints = () => {
     getAppointments();
-  }
+  };
 
   return (
     <div>
@@ -190,7 +181,7 @@ export default function IcbcAppointmentChecker() {
           <Box
             sx={{
               display: "flex",
-              flexDirection:"column",
+              flexDirection: "column",
               justifyContent: "space-around",
               alignItems: "center",
               gap: "12px",
@@ -203,10 +194,9 @@ export default function IcbcAppointmentChecker() {
                 display: "flex",
                 justifyContent: "space-around",
                 alignItems: "center",
-                gap: "32px",           
+                gap: "32px",
               }}
             >
-       
               <Box sx={{ marginBottom: "10px" }}>
                 {String(myAppointment?.webAappointments[0].appointmentDt.date)}
               </Box>
@@ -226,21 +216,33 @@ export default function IcbcAppointmentChecker() {
                 justifyContent: "space-around",
                 alignItems: "center",
                 gap: "32px",
-            
               }}
             >
-     
-     
-       
-       <Box sx={{ marginBottom: "10px" }}>
+              <Box sx={{ marginBottom: "10px" }}>
                 {myAppointment?.licenseNumber}
               </Box>
               {/* refresh min selection */}
               <Box>
                 <Typography>Refresh Interval unit:Min</Typography>
+                {/* refresh interval minute */}
                 <SliderMinSelection
-                  value={minitueInterval}
-                  setValue={setMinitueInterval}
+                  value={minuteInterval}
+                  setValue={setMinuteInterval}
+                  sliderMaxValue={IcbcService.maxInfoRefreshInterval}
+                  localStorageKey={IcbcService.refreshIntervalMin}
+                  sliderMinValue={0}
+                />
+              </Box>
+              <Box>
+                <Typography>Exam Date From Today</Typography>
+                {/* set duration from Today */}
+
+                <SliderMinSelection
+                  value={addToToday}
+                  setValue={setAddToToday}
+                  sliderMaxValue={IcbcService.maxDayAddToToday}
+                  localStorageKey={IcbcService.addToTodayKey}
+                  sliderMinValue={0}
                 />
               </Box>
             </Box>
@@ -250,21 +252,39 @@ export default function IcbcAppointmentChecker() {
                 justifyContent: "space-around",
                 alignItems: "center",
                 gap: "32px",
-            
               }}
             >
-              <Box><CredentialTextField val={drvrLastName} setVal={setDrvrLastName} title={IcbcService.drvrLastName} /></Box>
-              <Box><CredentialTextField val={licenceNumber} setVal={setLicenceNumber} title={IcbcService.licenceNumber} /></Box>
-              <Box><CredentialPwdTextField val={keyword} setVal={setKeyword} title={IcbcService.keyword} /></Box>
+              <Box>
+                <CredentialTextField
+                  val={drvrLastName}
+                  setVal={setDrvrLastName}
+                  title={IcbcService.drvrLastName}
+                />
+              </Box>
+              <Box>
+                <CredentialTextField
+                  val={licenceNumber}
+                  setVal={setLicenceNumber}
+                  title={IcbcService.licenceNumber}
+                />
+              </Box>
+              <Box>
+                <CredentialPwdTextField
+                  val={keyword}
+                  setVal={setKeyword}
+                  title={IcbcService.keyword}
+                />
+              </Box>
               {/* <Box><CredentialTextField val={keyword} setVal={setKeyword} title={IcbcService.keyword} textType="password"/></Box> */}
-     
-   
             </Box>
 
             <Button onClick={handleGetToken}>Sign In</Button>
             <Box>
-
-              <LocationCheckbox val={locations} setVal={setLocations} allLocations={locationAndNames}/>
+              <LocationCheckbox
+                val={locations}
+                setVal={setLocations}
+                allLocations={locationAndNames}
+              />
             </Box>
           </Box>
         ) : null}
@@ -275,21 +295,26 @@ export default function IcbcAppointmentChecker() {
             justifyContent: "space-around",
             alignItems: "center",
             marginBottom: "10px",
-            gap:"32px",
+            gap: "32px",
           }}
         >
           <Box>
-            <Button onClick={handleGetAppoints}  color="success">Get Infos</Button>
+            <Button onClick={handleGetAppoints} color="success">
+              Get Infos
+            </Button>
           </Box>
 
           <Box>
-            <a href="https://onlinebusiness.icbc.com/webdeas-ui/home" target="blank">
+            <a
+              href="https://onlinebusiness.icbc.com/webdeas-ui/home"
+              target="blank"
+            >
               <Button color="primary">Go To Site</Button>
             </a>
           </Box>
           <Box>
-            <Button onClick={()=>handleToggleShowInfo()} color="info">
-              {showInfo? "Hide My Info":"Show My Info"}
+            <Button onClick={() => handleToggleShowInfo()} color="info">
+              {showInfo ? "Hide My Info" : "Show My Info"}
             </Button>
           </Box>
         </Box>
@@ -306,7 +331,12 @@ export default function IcbcAppointmentChecker() {
           <Grid2 container spacing={1}>
             {currentApps.map((app, index) => {
               return (
-                <Grid2  size={12 / (dividerNumber / 2)} key={Math.round(Math.random() * 10000) + app.posId + app.startTm }>
+                <Grid2
+                  size={12 / (dividerNumber / 2)}
+                  key={
+                    Math.round(Math.random() * 10000) + app.posId + app.startTm
+                  }
+                >
                   <Box>
                     {/* <Divider>{locationName(index + 1)}</Divider> */}
 
@@ -325,7 +355,11 @@ export default function IcbcAppointmentChecker() {
                     ) : (
                       <Divider sx={{ marginBottom: "10px" }}>{"-"}</Divider>
                     )}
-                    <MyAppointmentCard appointment={app} index={index} dividerNumber={dividerNumber}/>
+                    <MyAppointmentCard
+                      appointment={app}
+                      index={index}
+                      dividerNumber={dividerNumber}
+                    />
                     {/* <Box>
                       <Typography
                         sx={{
@@ -371,4 +405,3 @@ export default function IcbcAppointmentChecker() {
     </div>
   );
 }
-
