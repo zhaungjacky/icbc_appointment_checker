@@ -100,6 +100,8 @@ export default function IcbcAppointmentChecker() {
     []
   );
 
+  const [open, setOpen] = React.useState(false);//determin wether open card modal
+
   const tokenPayload: TokenPayloadType = {
     drvrLastName: drvrLastName,
     licenceNumber: licenceNumber,
