@@ -28,6 +28,7 @@ export default function LocationCheckbox({
             <Box key={location.aPosID} sx={{ width: "16%" }}>
               <Grid2 size={2}>
                 <FormControlLabel
+                name ={location.locationName}
                   control={
                     <Checkbox
                       defaultChecked={isChecked}

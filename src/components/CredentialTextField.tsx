@@ -14,7 +14,8 @@ export default function CredentialTextField( { val,setVal,title}: Readonly<MyCre
       component="form"
       sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
       noValidate
-      autoComplete="off"
+      // autoComplete="off"
+      name={title}
     >
       <TextField
         id={title}

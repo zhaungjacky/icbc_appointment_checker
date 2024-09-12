@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { MyValueInterface } from './SelectComponent';
 import FormControl from '@mui/material/FormControl/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
@@ -28,7 +27,8 @@ export default function CredentialPwdTextField( { val,setVal,title}: Readonly<My
       component="form"
       sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
       noValidate
-      autoComplete="off"
+      // autoComplete="off"
+      name={title}
     >
    
        <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
@@ -39,7 +39,7 @@ export default function CredentialPwdTextField( { val,setVal,title}: Readonly<My
             value={val}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setVal(event.target.value);
-              localStorage.setItem(title!,event.target.value);
+              localStorage.setItem(title,event.target.value);
             }}
             endAdornment={
               <InputAdornment position="end">

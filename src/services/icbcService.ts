@@ -55,7 +55,7 @@ export class IcbcService {
         if (myToken) {
           localStorage.removeItem("token");
           localStorage.setItem("token", JSON.stringify(myToken));
-          this.setToken(String(res.headers.get("Authorization")));
+          this.setToken(myToken);
         }
         return res.json();
       })

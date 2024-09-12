@@ -17,8 +17,8 @@ import { Appointment } from "../services/model/appointment";
 
 const locationAndNames: LocationProp[] = [
   { aPosID: 73, locationName: "Port Coquitlam" },
-  { aPosID: 274, locationName: "Burnary 4399" },
-  { aPosID: 2, locationName: "Burnary 3880" },
+  { aPosID: 274, locationName: "Burnaby 4399" },
+  { aPosID: 2, locationName: "Burnaby 3880" },
   { aPosID: 273, locationName: "Richmond 7200" },
   { aPosID: 93, locationName: "Richmond 5300" },
   { aPosID: 9, locationName: "Point Grey" },
@@ -100,7 +100,7 @@ export default function IcbcAppointmentChecker() {
     []
   );
 
-  const [open, setOpen] = React.useState(false);//determin wether open card modal
+
 
   const tokenPayload: TokenPayloadType = {
     drvrLastName: drvrLastName,
