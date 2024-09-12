@@ -230,7 +230,7 @@ export default function IcbcAppointmentChecker() {
                   setValue={setMinuteInterval}
                   sliderMaxValue={IcbcService.maxInfoRefreshInterval}
                   localStorageKey={IcbcService.refreshIntervalMin}
-                  sliderMinValue={0}
+                  sliderMinValue={1}
                 />
               </Box>
               <Box>

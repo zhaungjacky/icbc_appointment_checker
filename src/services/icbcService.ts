@@ -174,6 +174,7 @@ function getDateString(daysToAdd: number = 0): string {
   const day = currentDate.getDate().toString().padStart(2, '0');
   
   const formattedDate = `${year}-${month}-${day}`;
+
   
   // console.log(formattedDate); // Output: 2024-09-10
   return formattedDate;
