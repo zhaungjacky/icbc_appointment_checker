@@ -32,6 +32,7 @@ export class IcbcService {
   static readonly showInfos: boolean = true; //init wether show infos zone
   static readonly token: string = "token";
   static readonly selectedLocations: string = 'selectedLocations';
+  static readonly showInfoKey: string = 'showInfo';
   static readonly maxInfoRefreshInterval: number = 60;
   static readonly maxDayAddToToday: number = 60;
 

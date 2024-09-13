@@ -93,7 +93,7 @@ export default function IcbcAppointmentChecker() {
       : parseInt(JSON.parse(localStorage.getItem(IcbcService.addToTodayKey)!))
   );
 
-  const [showInfo, setShowInfo] = React.useState(() => IcbcService.showInfos);
+  const [showInfo, setShowInfo] = React.useState(() => localStorage.getItem(IcbcService.showInfoKey) === null ? IcbcService.showInfos : JSON.parse(localStorage.getItem(IcbcService.showInfoKey)!) as boolean );
 
   const icbcService = React.useMemo(
     () => new IcbcService(setToken, setMyAppointment, setCurrentApps),
@@ -151,7 +151,10 @@ export default function IcbcAppointmentChecker() {
   }, [locations, token]);
 
   const handleToggleShowInfo = () => {
-    setShowInfo((prev) => !prev);
+    setShowInfo((prev) => {
+      localStorage.setItem(IcbcService.showInfoKey,JSON.stringify(!prev));
+      return !prev;});
+    
   };
 
   const handleGetToken = () => {
