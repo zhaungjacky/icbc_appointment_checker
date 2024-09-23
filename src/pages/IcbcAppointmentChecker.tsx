@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { Box, Button, Divider, Grid2, Typography } from "@mui/material";
+import { Box, Button, Divider, Grid2, Tooltip, Typography } from "@mui/material";
 import { CurrentAppointment } from "../services/model/current_appointment";
 import {
   IcbcService,
@@ -282,8 +282,10 @@ export default function IcbcAppointmentChecker() {
               </Box>
               {/* <Box><CredentialTextField val={keyword} setVal={setKeyword} title={IcbcService.keyword} textType="password"/></Box> */}
             </Box>
+<Tooltip  title="Get User Credential"><Button onClick={handleGetToken}>Sign In</Button>
 
-            <Button onClick={handleGetToken}>Sign In</Button>
+            
+</Tooltip>
             <Box>
               <LocationCheckbox
                 val={locations}
@@ -303,25 +305,36 @@ export default function IcbcAppointmentChecker() {
             gap: "32px",
           }}
         >
-          <Box>
-            <Button onClick={handleGetAppoints} color="success">
-              Get Infos
-            </Button>
-          </Box>
 
-          <Box>
-            <a
-              href="https://onlinebusiness.icbc.com/webdeas-ui/home"
-              target="blank"
-            >
-              <Button color="primary">Go To Site</Button>
-            </a>
-          </Box>
-          <Box>
-            <Button onClick={() => handleToggleShowInfo()} color="info">
-              {showInfo ? "Hide My Info" : "Show My Info"}
-            </Button>
-          </Box>
+          <Tooltip title="Get Available Appointments">
+
+            <Box>
+              <Button onClick={handleGetAppoints} color="success">
+                Get Infos
+              </Button>
+            </Box>
+          </Tooltip>
+
+          <Tooltip title="Goto Offical ICBC Website">
+
+            <Box>
+              <a
+                href="https://onlinebusiness.icbc.com/webdeas-ui/home"
+                target="blank"
+              >
+                <Button color="primary">Go To Site</Button>
+              </a>
+            </Box>
+          </Tooltip>
+
+          <Tooltip title="Show Or Hide User Info">
+
+            <Box>
+              <Button onClick={() => handleToggleShowInfo()} color="info">
+                {showInfo ? "Hide My Info" : "Show My Info"}
+              </Button>
+            </Box>
+          </Tooltip>
         </Box>
 
         {/* location infomation zone */}
