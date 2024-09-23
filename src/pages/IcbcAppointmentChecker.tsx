@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { Box, Button, Divider, Grid2, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid2,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { CurrentAppointment } from "../services/model/current_appointment";
 import {
   IcbcService,
@@ -93,14 +100,16 @@ export default function IcbcAppointmentChecker() {
       : parseInt(JSON.parse(localStorage.getItem(IcbcService.addToTodayKey)!))
   );
 
-  const [showInfo, setShowInfo] = React.useState(() => localStorage.getItem(IcbcService.showInfoKey) === null ? IcbcService.showInfos : JSON.parse(localStorage.getItem(IcbcService.showInfoKey)!) as boolean );
+  const [showInfo, setShowInfo] = React.useState(() =>
+    localStorage.getItem(IcbcService.showInfoKey) === null
+      ? IcbcService.showInfos
+      : (JSON.parse(localStorage.getItem(IcbcService.showInfoKey)!) as boolean)
+  );
 
   const icbcService = React.useMemo(
     () => new IcbcService(setToken, setMyAppointment, setCurrentApps),
     []
   );
-
-
 
   const tokenPayload: TokenPayloadType = {
     drvrLastName: drvrLastName,
@@ -152,9 +161,9 @@ export default function IcbcAppointmentChecker() {
 
   const handleToggleShowInfo = () => {
     setShowInfo((prev) => {
-      localStorage.setItem(IcbcService.showInfoKey,JSON.stringify(!prev));
-      return !prev;});
-    
+      localStorage.setItem(IcbcService.showInfoKey, JSON.stringify(!prev));
+      return !prev;
+    });
   };
 
   const handleGetToken = () => {
@@ -168,6 +177,8 @@ export default function IcbcAppointmentChecker() {
   const handleGetAppoints = () => {
     getAppointments();
   };
+
+  const isGetInfosBtnDisabled = token === "";
 
   return (
     <div>
@@ -282,10 +293,9 @@ export default function IcbcAppointmentChecker() {
               </Box>
               {/* <Box><CredentialTextField val={keyword} setVal={setKeyword} title={IcbcService.keyword} textType="password"/></Box> */}
             </Box>
-<Tooltip  title="Get User Credential"><Button onClick={handleGetToken}>Sign In</Button>
-
-            
-</Tooltip>
+            <Tooltip title="Get User Credential">
+              <Button onClick={handleGetToken}>Sign In</Button>
+            </Tooltip>
             <Box>
               <LocationCheckbox
                 val={locations}
@@ -305,18 +315,18 @@ export default function IcbcAppointmentChecker() {
             gap: "32px",
           }}
         >
-
           <Tooltip title="Get Available Appointments">
-
             <Box>
-              <Button onClick={handleGetAppoints} color="success">
+              <Button onClick={handleGetAppoints} color="success"
+              disabled={isGetInfosBtnDisabled}
+              
+              >
                 Get Infos
               </Button>
             </Box>
           </Tooltip>
 
           <Tooltip title="Goto Offical ICBC Website">
-
             <Box>
               <a
                 href="https://onlinebusiness.icbc.com/webdeas-ui/home"
@@ -328,7 +338,6 @@ export default function IcbcAppointmentChecker() {
           </Tooltip>
 
           <Tooltip title="Show Or Hide User Info">
-
             <Box>
               <Button onClick={() => handleToggleShowInfo()} color="info">
                 {showInfo ? "Hide My Info" : "Show My Info"}
