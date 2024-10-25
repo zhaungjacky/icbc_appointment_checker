@@ -359,7 +359,7 @@ export default function IcbcAppointmentChecker() {
             {currentApps.map((app, index) => {
               return (
                 <Grid2
-                  size={12 / (dividerNumber / 2)}
+                  size={{xs:12,sm:6,md:4,lg:12 / (dividerNumber / 2),xl:2,}}
                   key={
                     Math.round(Math.random() * 10000) + app.posId + app.startTm
                   }
