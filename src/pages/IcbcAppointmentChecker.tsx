@@ -2,11 +2,9 @@
 import React from "react";
 import {
   Box,
-  Button,
   Divider,
   Grid2,
-  Tooltip,
-  Typography,
+  // Typography,
 } from "@mui/material";
 import { CurrentAppointment } from "../services/model/current_appointment";
 import {
@@ -15,12 +13,12 @@ import {
   TokenPayloadType,
   appointmentPayload,
 } from "../services/icbcService";
-import SliderMinSelection from "../components/SliderMinSelection";
-import CredentialTextField from "../components/CredentialTextField";
-import CredentialPwdTextField from "../components/CredentialPwdTextField";
-import LocationCheckbox from "../components/LocationCheckbox";
+
 import MyAppointmentCard from "../components/MyAppointmentCard";
 import { Appointment } from "../services/model/appointment";
+import MyAppBar from "../components/MyAppBar";
+
+
 
 const locationAndNames: LocationProp[] = [
   { aPosID: 73, locationName: "Port Coquitlam" },
@@ -192,159 +190,29 @@ export default function IcbcAppointmentChecker() {
           padding: "32px",
         }}
       >
-        {/* info zone */}
-        {showInfo ? (
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-around",
-              alignItems: "center",
-              gap: "12px",
-              padding: "16px",
-            }}
-          >
-            {/* <Box sx={{ marginBottom: "10px" }}>{myAppointment?.email}</Box> */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                gap: "32px",
-              }}
-            >
-              <Box sx={{ marginBottom: "10px" }}>
-                {String(myAppointment?.webAappointments[0].appointmentDt.date)}
-              </Box>
-              <Box sx={{ marginBottom: "10px" }}>
-                {myAppointment?.webAappointments[0].startTm}
-              </Box>
-              <Box sx={{ marginBottom: "10px" }}>
-                {myAppointment?.webAappointments[0].appointmentDt.dayOfWeek}
-              </Box>
-              <Box sx={{ marginBottom: "10px" }}>
-                {myAppointment?.webAappointments[0].posGeo.address}
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                gap: "32px",
-              }}
-            >
-              <Box sx={{ marginBottom: "10px" }}>
-                {myAppointment?.licenseNumber}
-              </Box>
-              {/* refresh min selection */}
-              <Box>
-                <Typography>Refresh Interval unit:Min</Typography>
-                {/* refresh interval minute */}
-                <SliderMinSelection
-                  value={minuteInterval}
-                  setValue={setMinuteInterval}
-                  sliderMaxValue={IcbcService.maxInfoRefreshInterval}
-                  localStorageKey={IcbcService.refreshIntervalMin}
-                  sliderMinValue={1}
-                />
-              </Box>
-              <Box>
-                <Typography>Exam Date From Today</Typography>
-                {/* set duration from Today */}
+        {/* <MyAppBar /> */}
 
-                <SliderMinSelection
-                  value={addToToday}
-                  setValue={setAddToToday}
-                  sliderMaxValue={IcbcService.maxDayAddToToday}
-                  localStorageKey={IcbcService.addToTodayKey}
-                  sliderMinValue={0}
-                />
-              </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                gap: "32px",
-              }}
-            >
-              <Box>
-                <CredentialTextField
-                  val={drvrLastName}
-                  setVal={setDrvrLastName}
-                  title={IcbcService.drvrLastName}
-                />
-              </Box>
-              <Box>
-                <CredentialTextField
-                  val={licenceNumber}
-                  setVal={setLicenceNumber}
-                  title={IcbcService.licenceNumber}
-                />
-              </Box>
-              <Box>
-                <CredentialPwdTextField
-                  val={keyword}
-                  setVal={setKeyword}
-                  title={IcbcService.keyword}
-                />
-              </Box>
-              {/* <Box><CredentialTextField val={keyword} setVal={setKeyword} title={IcbcService.keyword} textType="password"/></Box> */}
-            </Box>
-            <Tooltip title="Get User Credential">
-              <Button onClick={handleGetToken}>Sign In</Button>
-            </Tooltip>
-            <Box>
-              <LocationCheckbox
-                val={locations}
-                setVal={setLocations}
-                allLocations={locationAndNames}
-              />
-            </Box>
-          </Box>
-        ) : null}
-        {/* button zone */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            marginBottom: "10px",
-            gap: "32px",
-          }}
-        >
-          <Tooltip title="Get Available Appointments">
-            <Box>
-              <Button onClick={handleGetAppoints} color="success"
-              disabled={isGetInfosBtnDisabled}
-              
-              >
-                Get Infos
-              </Button>
-            </Box>
-          </Tooltip>
-
-          <Tooltip title="Goto Offical ICBC Website">
-            <Box>
-              <a
-                href="https://onlinebusiness.icbc.com/webdeas-ui/home"
-                target="blank"
-              >
-                <Button color="primary">Go To Site</Button>
-              </a>
-            </Box>
-          </Tooltip>
-
-          <Tooltip title="Show Or Hide User Info">
-            <Box>
-              <Button onClick={() => handleToggleShowInfo()} color="info">
-                {showInfo ? "Hide My Info" : "Show My Info"}
-              </Button>
-            </Box>
-          </Tooltip>
-        </Box>
+        <MyAppBar
+          showInfo={showInfo}
+          myAppointment={myAppointment}
+          minuteInterval={minuteInterval}
+          setMinuteInterval={setMinuteInterval}
+          addToToday={addToToday}
+          setAddToToday={setAddToToday}
+          drvrLastName={drvrLastName}
+          setDrvrLastName={setDrvrLastName}
+          licenceNumber={licenceNumber}
+          setLicenceNumber={setLicenceNumber}
+          keyword={keyword}
+          setKeyword={setKeyword}
+          handleGetToken={handleGetToken}
+          locations={locations}
+          setLocations={setLocations}
+          locationAndNames={locationAndNames}
+          handleToggleShowInfo={handleToggleShowInfo}
+          handleGetAppoints={handleGetAppoints}
+          isGetInfosBtnDisabled={isGetInfosBtnDisabled}
+        />
 
         {/* location infomation zone */}
         {/* <Box sx={{ marginBottom: "10px" }}>
@@ -359,7 +227,13 @@ export default function IcbcAppointmentChecker() {
             {currentApps.map((app, index) => {
               return (
                 <Grid2
-                  size={{xs:12,sm:6,md:4,lg:12 / (dividerNumber / 2),xl:2,}}
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    md: 4,
+                    lg: 12 / (IcbcService.dividerNumber / 2),
+                    xl: 2,
+                  }}
                   key={
                     Math.round(Math.random() * 10000) + app.posId + app.startTm
                   }
@@ -432,3 +306,123 @@ export default function IcbcAppointmentChecker() {
     </div>
   );
 }
+
+// {showInfo ?
+//   (
+
+// <Box
+//   sx={{
+//     display: "flex",
+//     flexDirection: "column",
+//     justifyContent: "space-around",
+//     alignItems: "center",
+//     gap: "12px",
+//     padding: "16px",
+//   }}
+// >
+//   {/* <Box sx={{ marginBottom: "10px" }}>{myAppointment?.email}</Box> */}
+//   <Box
+//     sx={{
+//       display: "flex",
+//       justifyContent: "space-around",
+//       alignItems: "center",
+//       gap: "32px",
+//     }}
+//   >
+//     <Box sx={{ marginBottom: "10px" }}>
+//       {String(
+//         myAppointment?.webAappointments[0].appointmentDt.date
+//       )}
+//     </Box>
+//     <Box sx={{ marginBottom: "10px" }}>
+//       {myAppointment?.webAappointments[0].startTm}
+//     </Box>
+//     <Box sx={{ marginBottom: "10px" }}>
+//       {
+//         myAppointment?.webAappointments[0].appointmentDt
+//           .dayOfWeek
+//       }
+//     </Box>
+//     <Box sx={{ marginBottom: "10px" }}>
+//       {myAppointment?.webAappointments[0].posGeo.address}
+//     </Box>
+//   </Box>
+//   <Box
+//     sx={{
+//       display: "flex",
+//       justifyContent: "space-around",
+//       alignItems: "center",
+//       gap: "32px",
+//     }}
+//   >
+//     <Box sx={{ marginBottom: "10px" }}>
+//       {myAppointment?.licenseNumber}
+//     </Box>
+//     {/* refresh min selection */}
+//     <Box>
+//       <Typography>Refresh Interval unit:Min</Typography>
+//       {/* refresh interval minute */}
+//       <SliderMinSelection
+//         value={minuteInterval}
+//         setValue={setMinuteInterval}
+//         sliderMaxValue={IcbcService.maxInfoRefreshInterval}
+//         localStorageKey={IcbcService.refreshIntervalMin}
+//         sliderMinValue={1}
+//       />
+//     </Box>
+//     <Box>
+//       <Typography>Exam Date From Today</Typography>
+//       {/* set duration from Today */}
+
+//       <SliderMinSelection
+//         value={addToToday}
+//         setValue={setAddToToday}
+//         sliderMaxValue={IcbcService.maxDayAddToToday}
+//         localStorageKey={IcbcService.addToTodayKey}
+//         sliderMinValue={0}
+//       />
+//     </Box>
+//   </Box>
+//   <Box
+//     sx={{
+//       display: "flex",
+//       justifyContent: "space-around",
+//       alignItems: "center",
+//       gap: "32px",
+//     }}
+//   >
+//     <Box>
+//       <CredentialTextField
+//         val={drvrLastName}
+//         setVal={setDrvrLastName}
+//         title={IcbcService.drvrLastName}
+//       />
+//     </Box>
+//     <Box>
+//       <CredentialTextField
+//         val={licenceNumber}
+//         setVal={setLicenceNumber}
+//         title={IcbcService.licenceNumber}
+//       />
+//     </Box>
+//     <Box>
+//       <CredentialPwdTextField
+//         val={keyword}
+//         setVal={setKeyword}
+//         title={IcbcService.keyword}
+//       />
+//     </Box>
+//     {/* <Box><CredentialTextField val={keyword} setVal={setKeyword} title={IcbcService.keyword} textType="password"/></Box> */}
+//   </Box>
+//   <Tooltip title="Get User Credential">
+//     <Button onClick={handleGetToken}>Sign In</Button>
+//   </Tooltip>
+//   <Box>
+//     <LocationCheckbox
+//       val={locations}
+//       setVal={setLocations}
+//       allLocations={locationAndNames}
+//     />
+//   </Box>
+// </Box>
+// )              : null}
