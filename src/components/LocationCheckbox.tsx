@@ -25,7 +25,7 @@ export default function LocationCheckbox({
               .length > 0;
 
           return (
-            <Box key={location.aPosID} sx={{ width: "16%" }}>
+            <Box key={location.aPosID} sx={{ width: "16%", color:"white"}}>
               <Grid2 size={2}>
                 <FormControlLabel
                 name ={location.locationName}
